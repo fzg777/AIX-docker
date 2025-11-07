@@ -1,0 +1,10 @@
+services:
+  aix-docker:
+    build: .
+    container_name: aix-docker
+    ports:
+      - "4441:4441"
+    volumes:
+      - ./images:/aix/images
+    stdin_open: true
+    tty: true
