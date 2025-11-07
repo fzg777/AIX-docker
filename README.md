@@ -1,5 +1,5 @@
 # Run AIX 5.1 in Docker or Podman
-I don't know why anyone would want to do this, but now you can.
+I don't know why anyone would want to do this, but now you can. Multistage build, so the actual runtime (excluding AIX itself) is less than 200mbs, might be more later.
 
 ## Dependencies
 - git
@@ -10,7 +10,7 @@ I don't know why anyone would want to do this, but now you can.
 ## How to use
 - Clone repo
 - Create a directory named images/ in it
-- Download [AIX 5.1](https://winworldpc.com/product/aix/51), you only really need volume 1-3
+- Download [AIX 5.1](https://winworldpc.com/product/aix/51), you only really need volume 1 to install, everything else is extra packages.
 - put .isos in the images/ directory, rename VOLUME1.iso to AIX-vol1.iso, or change the Dockerfile
 - Docker will create a .qcow2 file for your AIX hdd in the images/ dir aswell
 - Run docker/podman-compose build 
