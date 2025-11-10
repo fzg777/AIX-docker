@@ -1,0 +1,13 @@
+#!/bin/bash
+# add TAP
+
+# up
+ip link set "$1" up 2>/dev/null || ifconfig "$1" 0.0.0.0 up
+
+# join w bridge
+ip link set "$1" master br0 2>/dev/null || brctl addif br0 "$1"
+
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to add $1 to bridge br0" >&2
+    exit 1
+fi

@@ -19,11 +19,22 @@ WORKDIR /aix
 # actual dependencies
 RUN apt update && apt install -y libglib2.0-0 libpixman-1-0 libfdt1 zlib1g libnuma1 libpmem1 librbd1 libiscsi7 libcurl4 libnfs13 libssh-4 libslirp0 wget && rm -rf /var/lib/apt/lists/*
 
-#RUN apt install -y libsasl2-2 libgnutls30 libjpeg62-turbo libpng16-16 
+# networking dependencies
+RUN apt update && apt install -y bridge-utils uml-utilities net-tools iptables procps iproute2
+
+# VNC dependencies
+# RUN apt install -y libsasl2-2 libgnutls30 libjpeg62-turbo libpng16-16 
 
 RUN wget https://github.com/artyom-tarasenko/openfirmware/releases/download/40p-20190413/q40pofw-serial.rom
 
 COPY --from=builder /aix/install/usr/local /usr/local
+
+# Set up networking
+COPY network.sh /aix/network.sh
+RUN chmod +x /aix/network.sh
+
+COPY qemu-ifup /etc/qemu-ifup
+RUN chmod +x /etc/qemu-ifup
 
 VOLUME /aix/images
 WORKDIR /aix/images
